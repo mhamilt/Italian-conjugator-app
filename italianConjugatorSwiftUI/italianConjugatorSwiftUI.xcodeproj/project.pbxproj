@@ -82,7 +82,7 @@
 				};
 			};
 			buildConfigurationList = 53AA5F452DBA5BB2008E8B68 /* Build configuration list for PBXProject "italianConjugatorSwiftUI" */;
-			compatibilityVersion = "Xcode 15.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
