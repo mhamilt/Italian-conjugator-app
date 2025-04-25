@@ -18,10 +18,7 @@ struct ContentView: View {
     
     var body: some View {
         return VStack {
-//            Image(systemName: "magnifyingglass")
-//                .imageScale(.large)
-//                .foregroundStyle(.tint)
-            ConjugatorView()
+            ConjugatorView(dictionary:dictionary)
         }
         .padding()
     }
