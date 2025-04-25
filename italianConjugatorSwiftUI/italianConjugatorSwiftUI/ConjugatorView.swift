@@ -22,14 +22,18 @@ struct ConjugatorView: View {
                         .font(.title)
                         .bold()
                         .padding(.top)
-
                     TextField("Scrive l'infinito", text: $searchText)
                         .disabled(false)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
+                        .foregroundColor(.black)
                         .onSubmit {
                             setTheTable();
                         }
+                        .onChange(of: searchText) { oldValue, newValue in
+                            setTheTable();
+                        }
+                                                
                     ConjugationDetails()
                     ConjugationTable()
                 }
