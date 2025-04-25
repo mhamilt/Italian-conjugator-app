@@ -9,6 +9,11 @@ import SwiftUI
 struct ConjugatorView: View {
     @State private var searchText = ""
     
+    func setTheTable()
+    {
+        print("Need to do something here which changes the values in ConjugationTable")
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -22,7 +27,9 @@ struct ConjugatorView: View {
                         .disabled(false)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
-
+                        .onSubmit {
+                            setTheTable();
+                        }
                     ConjugationDetails()
                     ConjugationTable()
                 }
