@@ -40,16 +40,16 @@ struct ConjugationDetails: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("Infinitive:").bold()
-                Text("scrivere").italic()
+                Text("Infinito:").bold()
+                Text(" ").italic()
             }
             HStack {
                 Text("Gerundio:").bold()
-                Text("scrivendo").italic()
+                Text(" ").italic()
             }
             HStack {
                 Text("Passato:").bold()
-                Text("scritto").italic()
+                Text(" ").italic()
             }
         }
         .padding(.horizontal)

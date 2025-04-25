@@ -18,14 +18,10 @@ struct ContentView: View {
     
     var body: some View {
         return VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text(mainText).onAppear()
-            {
-                let entry = self.dictionary?["andare"]?["IPRF.IND.3PL"] ?? "nothing";
-                print(entry)
-            }
+//            Image(systemName: "magnifyingglass")
+//                .imageScale(.large)
+//                .foregroundStyle(.tint)
+            ConjugatorView()
         }
         .padding()
     }
