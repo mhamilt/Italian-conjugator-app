@@ -8,17 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    var mainText = "Hello";
+    var dictionary: Dictionary<String, Dictionary<String, String>>?
+    init(mainText: String = "Hello", dictionary:Dictionary<String, Dictionary<String, String>>?) {
+        
+        self.dictionary = dictionary
+        self.mainText = (self.dictionary?["andare"]?["IPRF.IND.3PL"] ?? "nothing").capitalized;
+    }
+    
     var body: some View {
-        VStack {
+        return VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(mainText).onAppear()
+            {
+                let entry = self.dictionary?["andare"]?["IPRF.IND.3PL"] ?? "nothing";
+                print(entry)
+            }
         }
         .padding()
     }
-}
-
-#Preview {
-    ContentView()
 }
