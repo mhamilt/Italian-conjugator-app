@@ -9,119 +9,17 @@ import SwiftUI
 struct ConjugatorView: View {
     
     var dictionary: Dictionary<String, Dictionary<String, String>>?
+    let tenses = ["Presente", "Imperfetto", "Remoto", "Futuro", "Congiuntivo", "Cng Imperf", "Condizionale", "Imperative"]
+    let persons = ["io", "tu", "lei / lui", "noi", "voi", "loro"]
+    
     @State private var searchText = ""
     @State public var infinitive: String = ""
     @State public var gerund: String = ""
     @State public var past: String = ""
     
-    init(dictionary: Dictionary<String, Dictionary<String, String>>? = nil, searchText: String = "", infinitive: String = "" , gerund: String = "", past: String = "") {
-        self.dictionary = dictionary
-        self.searchText = searchText
-        self.infinitive = infinitive
-        self.gerund = gerund
-        self.past = past
-    }
+    @State public var dictionaryEntry : [String:String]?
     
-    func setTheTable()
-    {
-        if((dictionary?.keys.contains(searchText.lowercased())) != nil)
-        {
-            infinitive = dictionary?[searchText.lowercased()]?["INF"] ?? "-"
-            gerund     = dictionary?[searchText.lowercased()]?["GER"] ?? "-"
-            past       = dictionary?[searchText.lowercased()]?["PST.PTCP.M.SG"] ?? "-"
-        }
-    }
-    
-    var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Italian Verb Conjugation")
-                        .font(.title)
-                        .bold()
-                        .padding(.top)
-                    TextField("Scrive l'infinito", text: $searchText)
-                        .disabled(false)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal)
-                        .foregroundColor(.black)
-                        .onSubmit {
-                            setTheTable();
-                        }
-                        .onChange(of: searchText) { oldValue, newValue in
-                            setTheTable();
-                        }
-                    
-                    ConjugationDetails(infinitive: infinitive,
-                                       gerund: gerund,
-                                       past: past)
-                        
-                    ConjugationTable()
-                }
-                .padding()
-            }
-            .background(Color.black)
-            .foregroundColor(.white)
-            .navigationTitle("")
-            .navigationBarHidden(true)
-        }
-    }
-}
-
-struct ConjugationDetails: View {
-        
-    var infinitive: String = ""
-    var gerund: String = ""
-    var past: String = ""
-    
-    init(infinitive: String, gerund: String, past: String)
-    {
-        self.infinitive = infinitive
-        self.gerund = gerund
-        self.past = past
-    }
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("Infinito:").bold()
-                Text(infinitive).italic()
-            }
-            HStack {
-                Text("Gerundio:").bold()
-                Text(gerund).italic()
-            }
-            HStack {
-                Text("Passato:").bold()
-                Text(past).italic()
-            }
-        }
-        .padding(.horizontal)
-    }
-}
-
-struct ConjugationTable: View {
-    let tenses = ["Presente", "Imperfetto", "Remoto", "Futuro", "Congiuntivo", "Cng Imperf", "Condizionale", "Imperative"]
-    let persons = ["io", "tu", "lei / lui", "noi", "voi", "loro"]
-//    [
-//    "PRS.IND"   :  "Presente",
-//    "IPRF.IND"  :  "Imperfetto",
-//    "PRET.IND"  :  "Remoto",
-//    "FUT.IND"   :  "Futuro",
-//    "PRS.SBJV"  :  "Congiuntivo",
-//    "IPRF.SBJV" :  "Cng Imperf",
-//    "COND"      :  "Condizionale",
-//    "IMP"       :  "Imperative",
-//    ]
-    
-//    [
-//    "1SG":"io",
-//    "2SG":"tu",
-//    "3SG":"lei",
-//    "1PL":"noi",
-//    "2PL":"voi",
-//    "3PL":"loro"
-//    ]
-    var entry: [String:String] = [
+    var nullentry: [String:String] = [
         "INF":"",
         "GER":"",
         "PRS.PTCP.SG":"",
@@ -179,25 +77,166 @@ struct ConjugationTable: View {
         "isIrregular":"",
     ]
     
+    init(dictionary: Dictionary<String, Dictionary<String, String>>? = nil, searchText: String = "", infinitive: String = "" , gerund: String = "", past: String = "") {
+        self.dictionary = dictionary
+        self.searchText = searchText
+        self.infinitive = infinitive
+        self.gerund = gerund
+        self.past = past
+    }
+    
+    func setTheTable()
+    {
+        if((dictionary?.keys.contains(searchText.lowercased())) != nil)
+        {
+            dictionaryEntry = dictionary![searchText.lowercased()]
+            infinitive = dictionaryEntry?["INF"] ?? "-"
+            gerund     = dictionaryEntry?["GER"] ?? "-"
+            past       = dictionaryEntry?["PST.PTCP.M.SG"] ?? "-"
+        }
+    }
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                
+                VStack(alignment: .leading, spacing: 20) {
+                    
+                    
+                    Text("Italian Verb Conjugation")
+                        .font(.title)
+                        .bold()
+                        .padding(.top)
+                    TextField("Scrive l'infinito", text: $searchText)
+                        .disabled(false)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                        .foregroundColor(.black)
+                        .onSubmit {
+                            setTheTable();
+                        }
+                        .onChange(of: searchText) { oldValue, newValue in
+                            setTheTable();
+                        }
+                    
+                    ConjugationDetails(infinitive: infinitive,
+                                       gerund: gerund,
+                                       past: past)
+                    
+                    ConjugationTable(entry: dictionaryEntry ?? nullentry)
+                    
+                }
+                .padding()
+            }
+            .background(Color.black)
+            .foregroundColor(.white)
+            .navigationTitle("")
+            .navigationBarHidden(true)
+        }
+    }
+}
+
+struct ConjugationDetails: View {
+    
+    var infinitive: String = ""
+    var gerund: String = ""
+    var past: String = ""
+    
+    init(infinitive: String, gerund: String, past: String)
+    {
+        self.infinitive = infinitive
+        self.gerund = gerund
+        self.past = past
+    }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Infinito:").bold()
+                Text(infinitive).italic()
+            }
+            HStack {
+                Text("Gerundio:").bold()
+                Text(gerund).italic()
+            }
+            HStack {
+                Text("Passato:").bold()
+                Text(past).italic()
+            }
+        }
+        .padding(.horizontal)
+    }
+}
+
+struct ConjugationTable: View {
+    
+    let tenseCodes =    [
+        "PRS.IND"   ,
+        "IPRF.IND"  ,
+        "PRET.IND"  ,
+        "FUT.IND"   ,
+        "PRS.SBJV"  ,
+        "IPRF.SBJV" ,
+        "COND"      ,
+        "IMP"       ,
+    ]
+    
+    let personCodes = [
+        "1SG",
+        "2SG",
+        "3SG",
+        "1PL",
+        "2PL",
+        "3PL",
+    ]
+    
+    let tenses: [String:String] =    [
+        "PRS.IND"   :  "Presente",
+        "IPRF.IND"  :  "Imperfetto",
+        "PRET.IND"  :  "Remoto",
+        "FUT.IND"   :  "Futuro",
+        "PRS.SBJV"  :  "Congiuntivo",
+        "IPRF.SBJV" :  "Cng Imperf",
+        "COND"      :  "Condizionale",
+        "IMP"       :  "Imperative",
+    ]
+    
+    let persons =
+    [
+        "1SG":"io",
+        "2SG":"tu",
+        "3SG":"lei",
+        "1PL":"noi",
+        "2PL":"voi",
+        "3PL":"loro"
+    ]
+    
+    var entry: [String:String]
+    
+    init(entry: [String : String]) {
+        self.entry = entry
+    }
     
     var body: some View {
         ScrollView(.horizontal) {
             VStack(alignment: .leading, spacing: 0) {
                 
-                // Header Row
-                HStack(spacing: 0) {
-                    tableCell("Persona", bold: true)
-                    ForEach(tenses, id: \.self) { tense in
-                        tableCell(tense, bold: true)
+                Grid(horizontalSpacing: 0, verticalSpacing: 0) {
+                    GridRow {
+                        Color.black
+                            .gridCellUnsizedAxes([.horizontal, .vertical])
+                            .frame(minWidth: 10, minHeight: 40)
+                        ForEach(tenseCodes, id: \.self) { tenseCode in
+                            tableCell(tenses[tenseCode] ?? "-")
+                            
+                        }
                     }
-                }
-                
-                // Data Rows
-                ForEach(persons, id: \.self) { person in
-                    HStack(spacing: 0) {
-                        tableCell(person, italic: true)
-                        ForEach(tenses, id: \.self) { tense in
-                            tableCell(tense + person) // Replace "-" with actual data
+                    ForEach(personCodes, id: \.self) {
+                        personCode in
+                        GridRow {
+                            tableCell(persons[personCode] ?? "-").frame(minWidth: 10, minHeight: 40)
+                            ForEach(tenseCodes, id: \.self) { tenseCode in
+                                tableCell(entry[tenseCode + "." + personCode] ?? "-")
+                            }
                         }
                     }
                 }
@@ -214,6 +253,6 @@ struct ConjugationTable: View {
             .font(font)
             .frame(minWidth: 100, minHeight: 40)
             .multilineTextAlignment(.center)
-            .border(Color.white, width: 1)
+//                    .border(Color.white, width: 1)
     }
 }

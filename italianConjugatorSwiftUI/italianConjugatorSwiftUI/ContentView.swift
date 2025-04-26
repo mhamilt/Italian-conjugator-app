@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    var mainText = "Hello";
+    
     var dictionary: Dictionary<String, Dictionary<String, String>>?
-    init(mainText: String = "Hello", dictionary:Dictionary<String, Dictionary<String, String>>?) {
-        
+    
+    init(dictionary:Dictionary<String, Dictionary<String, String>>?) {
         self.dictionary = dictionary
-        self.mainText = (self.dictionary?["andare"]?["IPRF.IND.3PL"] ?? "nothing").capitalized;
     }
+    
+    @Environment(\.horizontalSizeClass) var sizeCategory
     
     var body: some View {
         return VStack {
             ConjugatorView(dictionary:dictionary)
+                .padding()
         }
-        .padding()
     }
 }
