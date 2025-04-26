@@ -9,9 +9,7 @@ import SwiftUI
 struct ConjugatorView: View {
     
     var dictionary: Dictionary<String, Dictionary<String, String>>?
-    let tenses = ["Presente", "Imperfetto", "Remoto", "Futuro", "Congiuntivo", "Cng Imperf", "Condizionale", "Imperative"]
-    let persons = ["io", "tu", "lei / lui", "noi", "voi", "loro"]
-    
+
     @State private var searchText = ""
     @State public var infinitive: String = ""
     @State public var gerund: String = ""
@@ -102,7 +100,6 @@ struct ConjugatorView: View {
                 
                 VStack(alignment: .leading, spacing: 20) {
                     
-                    
                     Text("Italian Verb Conjugation")
                         .font(.title)
                         .bold()
@@ -169,7 +166,7 @@ struct ConjugationDetails: View {
 
 struct ConjugationTable: View {
     
-    let tenseCodes =    [
+    let tenseCodes = [
         "PRS.IND"   ,
         "IPRF.IND"  ,
         "PRET.IND"  ,
