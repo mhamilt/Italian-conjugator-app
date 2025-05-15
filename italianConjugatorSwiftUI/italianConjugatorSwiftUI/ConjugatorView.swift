@@ -100,11 +100,11 @@ struct ConjugatorView: View {
                 
                 VStack(alignment: .leading, spacing: 20) {
                     
-                    Text("Italian Verb Conjugation")
-                        .font(.title)
-                        .bold()
-                        .padding(.top)
-                    TextField("Scrive l'infinito", text: $searchText)
+//                    Text("Italian Verb Conjugation")
+//                        .font(.title)
+//                        .bold()
+//                        .padding(.top)
+                    TextField("Scrivi l'infinito", text: $searchText)
                         .disabled(false)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
@@ -220,23 +220,44 @@ struct ConjugationTable: View {
                 Grid(horizontalSpacing: 0, verticalSpacing: 0) {
                     GridRow {
                         Color.black
-                            .gridCellUnsizedAxes([.horizontal, .vertical])
-                            .frame(minWidth: 10, minHeight: 40)
+//                            .gridCellUnsizedAxes([.horizontal, .vertical])
+//                            .frame(minWidth: 1, minHeight: 40)
                         ForEach(tenseCodes, id: \.self) { tenseCode in
-                            tableCell(tenses[tenseCode] ?? "-")
-                            
+//                            tableCell(tenses[tenseCode] ?? "-")
+                            Text(tenses[tenseCode] ?? "-").multilineTextAlignment(.leading)
                         }
                     }
                     ForEach(personCodes, id: \.self) {
                         personCode in
                         GridRow {
-                            tableCell(persons[personCode] ?? "-").frame(minWidth: 10, minHeight: 40)
+//                            tableCell(persons[personCode] ?? "-").frame(minWidth: 1, minHeight: 40).border(Color.white, width: 1)
+                            Text(persons[personCode] ?? "-").multilineTextAlignment(.trailing)
                             ForEach(tenseCodes, id: \.self) { tenseCode in
-                                tableCell(entry[tenseCode + "." + personCode] ?? "-")
+                                Text(entry[tenseCode + "." + personCode] ?? "-")
+                                    .frame(minWidth: 100, minHeight: 40)
+                                    .multilineTextAlignment(.leading)
+//                                tableCell(entry[tenseCode + "." + personCode] ?? "-")
                             }
                         }
                     }
                 }
+//                Grid(alignment: .trailing) {
+//                    GridRow(alignment: .top) { // Use top vertical alignment.
+//                        Text("Top")
+//                        Color.red.frame(width: 1, height: 50)
+//                        Color.blue.frame(width: 50, height: 1)
+//                    }
+//                    GridRow { // Use the default (center) alignment.
+//                        Text("Center")
+//                        Color.red.frame(width: 1, height: 50)
+//                        Color.blue.frame(width: 50, height: 1)
+//                    }
+//                    GridRow(alignment: .bottom) { // Use bottom vertical alignment.
+//                        Text("Bottom")
+//                        Color.red.frame(width: 1, height: 50)
+//                        Color.blue.frame(width: 50, height: 1)
+//                    }
+//                }
             }
             .padding(.horizontal)
         }
@@ -244,12 +265,12 @@ struct ConjugationTable: View {
     
     @ViewBuilder
     private func tableCell(_ text: String, bold: Bool = false, italic: Bool = false) -> some View {
-        let font: Font = bold ? .headline : (italic ? .body.italic() : .body)
+        let _: Font = bold ? .headline : (italic ? .body.italic() : .body)
         
         Text(text)
-            .font(font)
+//            .font(font)
             .frame(minWidth: 100, minHeight: 40)
-            .multilineTextAlignment(.center)
+            .multilineTextAlignment(.leading)
 //                    .border(Color.white, width: 1)
     }
 }
