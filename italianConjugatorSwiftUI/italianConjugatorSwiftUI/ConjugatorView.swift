@@ -108,7 +108,9 @@ struct ConjugatorView: View {
                         .disabled(false)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
+                        .background(Color.black)
+//                        .background(.white)
                         .onSubmit {
                             setTheTable();
                         }
