@@ -99,18 +99,12 @@ struct ConjugatorView: View {
             ScrollView {
                 
                 VStack(alignment: .leading, spacing: 20) {
-                    
-//                    Text("Italian Verb Conjugation")
-//                        .font(.title)
-//                        .bold()
-//                        .padding(.top)
                     TextField("Scrivi l'infinito", text: $searchText)
                         .disabled(false)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
                         .foregroundColor(.white)
-                        .background(Color.black)
-//                        .background(.white)
+                        .background(.black)
                         .onSubmit {
                             setTheTable();
                         }
@@ -127,7 +121,7 @@ struct ConjugatorView: View {
                 }
                 .padding()
             }
-            .background(Color.black)
+            .background(.black)
             .foregroundColor(.white)
             .navigationTitle("")
             .navigationBarHidden(true)
