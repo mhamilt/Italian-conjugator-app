@@ -20,7 +20,8 @@ struct ContentView: View {
     var body: some View {
         return VStack {
             ConjugatorView(dictionary:dictionary)
-                .padding()
         }
+        .background(.black)
+        .padding()
     }
 }

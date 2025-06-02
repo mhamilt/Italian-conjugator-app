@@ -9,7 +9,7 @@ import SwiftUI
 struct ConjugatorView: View {
     
     var dictionary: Dictionary<String, Dictionary<String, String>>?
-
+    
     @State private var searchText = ""
     @State public var infinitive: String = ""
     @State public var gerund: String = ""
@@ -95,37 +95,39 @@ struct ConjugatorView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ScrollView {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                TextField("Scrivi l'infinito", text: $searchText)
+                    .disabled(false)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+                    .foregroundColor(.black)
+                    .background(.black)
+                    .onSubmit {
+                        setTheTable();
+                    }
+                    .onChange(of: searchText) { oldValue, newValue in
+                        setTheTable();
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical)
                 
-                VStack(alignment: .leading, spacing: 20) {
-                    TextField("Scrivi l'infinito", text: $searchText)
-                        .disabled(false)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal)
-                        .foregroundColor(.white)
-                        .background(.black)
-                        .onSubmit {
-                            setTheTable();
-                        }
-                        .onChange(of: searchText) { oldValue, newValue in
-                            setTheTable();
-                        }
-                    
-                    ConjugationDetails(infinitive: infinitive,
-                                       gerund: gerund,
-                                       past: past)
-                    
-                    ConjugationTable(entry: dictionaryEntry ?? nullentry)
-                    
-                }
-                .padding()
+                ConjugationDetails(infinitive: infinitive,
+                                   gerund: gerund,
+                                   past: past)
+                .padding(.horizontal)
+                .padding(.vertical)
+                
+                ConjugationTable(entry: dictionaryEntry ?? nullentry)
+                    .padding(.horizontal)
+                    .padding(.vertical)
+                
             }
-            .background(.black)
-            .foregroundColor(.white)
-            .navigationTitle("")
-            .navigationBarHidden(true)
         }
+        .background(.black)
+        .foregroundColor(.white)
+        .navigationTitle("")
+        .navigationBarHidden(true)
     }
 }
 
@@ -142,7 +144,7 @@ struct ConjugationDetails: View {
         self.past = past
     }
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Text("Infinito:").bold()
                 Text(infinitive).italic()
@@ -152,11 +154,10 @@ struct ConjugationDetails: View {
                 Text(gerund).italic()
             }
             HStack {
-                Text("Passato:").bold()
+                Text("Participio Passato:").bold()
                 Text(past).italic()
             }
         }
-        .padding(.horizontal)
     }
 }
 
@@ -211,62 +212,33 @@ struct ConjugationTable: View {
     
     var body: some View {
         ScrollView(.horizontal) {
-            VStack(alignment: .leading, spacing: 0) {
-                
-                Grid(horizontalSpacing: 0, verticalSpacing: 0) {
-                    GridRow {
-                        Color.black
-//                            .gridCellUnsizedAxes([.horizontal, .vertical])
-//                            .frame(minWidth: 1, minHeight: 40)
-                        ForEach(tenseCodes, id: \.self) { tenseCode in
-//                            tableCell(tenses[tenseCode] ?? "-")
-                            Text(tenses[tenseCode] ?? "-").multilineTextAlignment(.leading)
-                        }
+            Grid(horizontalSpacing: 0, verticalSpacing: 0) {
+                GridRow {
+                    Text("Persona")
+                        .multilineTextAlignment(.trailing)
+                        .padding()
+                    ForEach(tenseCodes, id: \.self) { tenseCode in
+                        Text(tenses[tenseCode] ?? "-")
+                            .multilineTextAlignment(.leading)
+                            .padding()
                     }
-                    ForEach(personCodes, id: \.self) {
-                        personCode in
-                        GridRow {
-//                            tableCell(persons[personCode] ?? "-").frame(minWidth: 1, minHeight: 40).border(Color.white, width: 1)
-                            Text(persons[personCode] ?? "-").multilineTextAlignment(.trailing)
-                            ForEach(tenseCodes, id: \.self) { tenseCode in
-                                Text(entry[tenseCode + "." + personCode] ?? "-")
-                                    .frame(minWidth: 100, minHeight: 40)
-                                    .multilineTextAlignment(.leading)
-//                                tableCell(entry[tenseCode + "." + personCode] ?? "-")
-                            }
+                }
+                ForEach(personCodes, id: \.self) {
+                    personCode in
+                    GridRow {
+                        Text(persons[personCode] ?? "-")
+                            .multilineTextAlignment(.trailing)
+                            .padding()
+                        ForEach(tenseCodes, id: \.self) { tenseCode in
+                            Text(entry[tenseCode + "." + personCode] ?? "-")
+                                .frame(minWidth: 100, minHeight: 40)
+                                .multilineTextAlignment(.leading)
+                                .padding()
                         }
                     }
                 }
-//                Grid(alignment: .trailing) {
-//                    GridRow(alignment: .top) { // Use top vertical alignment.
-//                        Text("Top")
-//                        Color.red.frame(width: 1, height: 50)
-//                        Color.blue.frame(width: 50, height: 1)
-//                    }
-//                    GridRow { // Use the default (center) alignment.
-//                        Text("Center")
-//                        Color.red.frame(width: 1, height: 50)
-//                        Color.blue.frame(width: 50, height: 1)
-//                    }
-//                    GridRow(alignment: .bottom) { // Use bottom vertical alignment.
-//                        Text("Bottom")
-//                        Color.red.frame(width: 1, height: 50)
-//                        Color.blue.frame(width: 50, height: 1)
-//                    }
-//                }
             }
-            .padding(.horizontal)
+            .border(.white)
         }
-    }
-    
-    @ViewBuilder
-    private func tableCell(_ text: String, bold: Bool = false, italic: Bool = false) -> some View {
-        let _: Font = bold ? .headline : (italic ? .body.italic() : .body)
-        
-        Text(text)
-//            .font(font)
-            .frame(minWidth: 100, minHeight: 40)
-            .multilineTextAlignment(.leading)
-//                    .border(Color.white, width: 1)
     }
 }
