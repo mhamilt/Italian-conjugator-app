@@ -101,8 +101,6 @@ struct ConjugatorView: View {
                     .disabled(false)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
-                    .foregroundColor(.black)
-                    .background(.black)
                     .onSubmit {
                         setTheTable();
                     }
@@ -117,15 +115,17 @@ struct ConjugatorView: View {
                                    past: past)
                 .padding(.horizontal)
                 .padding(.vertical)
+                .background(.black)
+                .foregroundColor(.white)
                 
                 ConjugationTable(entry: dictionaryEntry ?? nullentry)
                     .padding(.horizontal)
                     .padding(.vertical)
+                    .background(.black)
+                    .foregroundColor(.white)
                 
             }
         }
-        .background(.black)
-        .foregroundColor(.white)
         .navigationTitle("")
         .navigationBarHidden(true)
     }
